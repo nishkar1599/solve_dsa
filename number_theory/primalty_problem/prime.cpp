@@ -1,3 +1,6 @@
+// problem statement = https://www.codechef.com/practice/course/logical-problems/DIFF800/problems/PRB01?tab=statement
+
+
 #include<bits/stdc++.h>
 using namespace std;
 #define endl "\n"
