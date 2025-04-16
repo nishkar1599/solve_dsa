@@ -13,9 +13,10 @@ void solve(int n){
         prime[i]=true;  // setting all values to true
     }
     prime[0]=prime[1]=false;
-    FOR(i,2,n+1){
+    int sq = sqrt(n);
+    FOR(i,2,sq){
      if(prime[i]==true){
-         FORk(j,2*i,n+1,i){
+         FORk(j,i*i,n+1,i){
             prime[j]=false;
 
         }
