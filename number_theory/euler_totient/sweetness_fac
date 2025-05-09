@@ -1,0 +1,71 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> dishes;
+vector<int> sweetness_fac;
+vector<int> prefix; // prefix[i] stores number of prime φ values up to index i
+
+// Build dish vector
+void build_dishes(int n) {
+    for (int i = 0; i < n; i++) {
+        int s;
+        cin >> s;
+        dishes.push_back(s);
+    }
+}
+
+// Compute Euler's Totient function φ(n)
+int phi(int n) {
+    int result = n;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            while (n % i == 0)
+                n /= i;
+            result -= result / i;
+        }
+    }
+    if (n > 1)
+        result -= result / n;
+    return result;
+}
+
+// Check if a number is prime
+bool prime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+// Compute φ for each dish and build prefix sum of prime φs
+void phi_dishes(int n) {
+    prefix.push_back(0); // 1-based indexing
+    for (int i = 0; i < n; i++) {
+        int val = phi(dishes[i]);
+        sweetness_fac.push_back(val);
+
+        if (prime(val)) {
+            prefix.push_back(prefix.back() + 1);
+        } else {
+            prefix.push_back(prefix.back());
+        }
+    }
+}
+
+int main() {
+    int n, q;
+    cin >> n >> q;
+
+    build_dishes(n);
+    phi_dishes(n);
+
+    while (q--) {
+        int l, r;
+        cin >> l >> r;
+        cout << prefix[r] - prefix[l - 1] << endl;
+    }
+
+    return 0;
+}
